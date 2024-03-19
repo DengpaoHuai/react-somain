@@ -1,12 +1,12 @@
 import "./App.css";
-import CustomButton from "./components/CustomButton";
+import CustomCardComponent from "./components/CustomCardComponent";
 
 function App() {
   return (
     <>
-      <CustomButton>
-        <span>Click me</span>
-      </CustomButton>
+      <CustomCardComponent title="title" footer="footer">
+        <p>This is the first card</p>
+      </CustomCardComponent>
     </>
   );
 }
