@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react";
 
-const useFetch = <T>(url: string) => {
-  const [data, setData] = useState<T | null>(null);
+const useFetch = <T>(url: string, page: number) => {
+  const [data, setData] = useState<{
+    [key: number]: T | null;
+  }>();
 
   const fetchData = async () => {
-    const response = await fetch(url);
-    const data = await response.json();
-    setData(data);
+    const response = await fetch(url + `?page=${page}`);
+    const result: T = await response.json();
+    setData({
+      ...data,
+      [page]: result,
+    });
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (!data || !data[page]) fetchData();
+  }, [page]);
 
   return {
-    data,
+    data: data ? data[page] : null,
   };
 };
 

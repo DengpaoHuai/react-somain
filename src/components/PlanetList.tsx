@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import useFetch from "../hooks/useFetch";
 
 type Planet = {
   name: string;
@@ -13,27 +14,19 @@ type Planet = {
   url: string;
 };
 
-type Planets = Planet[];
-
 type ResponsePlanets = {
-  results: Planets;
+  results: Planet[];
   next: string;
   previous: string;
   count: number;
 };
 
 const PlanetList: React.FC = () => {
-  const [data, setData] = useState<ResponsePlanets | null>(null);
-
-  const fetchData = async (url: string) => {
-    const response = await fetch(url);
-    const data = await response.json();
-    setData(data);
-  };
-
-  useEffect(() => {
-    fetchData("https://swapi.dev/api/planets/");
-  }, []);
+  const [page, setPage] = useState(1);
+  const { data } = useFetch<ResponsePlanets>(
+    "https://swapi.dev/api/planets",
+    page
+  );
 
   return (
     <div>
@@ -44,34 +37,20 @@ const PlanetList: React.FC = () => {
         ))}
       </ul>
       <button
+        disabled={data?.previous === null}
         onClick={() => {
-          if (data?.previous) {
-            fetchData(data.previous);
-          }
+          setPage(page - 1);
         }}
-        disabled={!data?.previous}
       >
-        Previous
+        previous
       </button>
-      {Array.from({ length: Math.ceil(data?.count / 10) }).map((_, index) => (
-        <button
-          key={index}
-          onClick={() => {
-            fetchData(`https://swapi.dev/api/planets/?page=${index + 1}`);
-          }}
-        >
-          {index + 1}
-        </button>
-      ))}
       <button
-        disabled={!data?.next}
+        disabled={data?.next === null}
         onClick={() => {
-          if (data?.next) {
-            fetchData(data.next);
-          }
+          setPage(page + 1);
         }}
       >
-        Next
+        next
       </button>
     </div>
   );
