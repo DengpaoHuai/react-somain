@@ -1,12 +1,11 @@
 import "./App.css";
-import CustomCardComponent from "./components/CustomCardComponent";
+import ListDemo from "./components/ListDemo";
+import PlanetList from "./components/PlanetList";
 
 function App() {
   return (
     <>
-      <CustomCardComponent title="title" footer="footer">
-        <p>This is the first card</p>
-      </CustomCardComponent>
+      <PlanetList></PlanetList>
     </>
   );
 }
