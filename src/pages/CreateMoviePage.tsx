@@ -1,6 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useMovies } from "../contexts/MoviesContextProvider";
+import { useMovies } from "../store/movieStore";
 
 type Inputs = {
   name: string;

@@ -13,7 +13,7 @@ type MoviesContext = {
 
 export const MoviesContext = createContext<MoviesContext>({} as MoviesContext);
 
-export const useMovies = () => useContext(MoviesContext);
+//export const useMovies = () => useContext(MoviesContext);
 
 const MoviesContextProvider: React.FC<{
   children: React.ReactNode;

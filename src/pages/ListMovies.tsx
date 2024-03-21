@@ -1,5 +1,9 @@
 import { Link } from "react-router-dom";
-import { useMovies } from "../contexts/MoviesContextProvider";
+import useMovieStore, {
+  getMoviesSelector,
+  useMovies,
+} from "../store/movieStore";
+import { useEffect } from "react";
 
 const ListMovies = () => {
   const { movies } = useMovies();
