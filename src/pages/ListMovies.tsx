@@ -1,31 +1,20 @@
-import { useEffect, useState } from "react";
-
-type Movie = {
-  name: string;
-  rating: string;
-};
+import { Link } from "react-router-dom";
+import { useMovies } from "../contexts/MoviesContextProvider";
 
 const ListMovies = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
-
-  useEffect(() => {
-    fetch("https://crudcrud.com/api/a2d7fc043d0041b2b745d71112394bac/movies")
-      .then((response) => response.json())
-      .then((data) => {
-        setMovies(data);
-      });
-  }, []);
+  const { movies } = useMovies();
 
   return (
     <div>
       <h2>Movies</h2>
       <ul>
-        {movies.map((movie) => (
+        {movies?.map((movie) => (
           <li key={movie.name}>
             {movie.name} - {movie.rating}
           </li>
         ))}
       </ul>
+      <Link to="/create_movie">Create Movie</Link>
     </div>
   );
 };

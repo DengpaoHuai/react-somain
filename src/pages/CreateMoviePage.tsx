@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useMovies } from "../contexts/MoviesContextProvider";
 
 type Inputs = {
   name: string;
@@ -14,30 +15,20 @@ export default function App() {
     formState: { errors },
   } = useForm<Inputs>();
   const navigate = useNavigate();
+  const { createMovie } = useMovies();
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    fetch("https://crudcrud.com/api/a2d7fc043d0041b2b745d71112394bac/movies", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        navigate("/list");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    createMovie(data).then(() => {
+      navigate("/list");
+    });
   };
 
   return (
-    /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register("name", { required: true })} />
+      <label htmlFor="name">Name</label>
+      <input id="name" {...register("name", { required: true })} />
       <input {...register("rating", { required: true })} />
-      <input type="submit" />
+      <input type="submit" value="send" />
     </form>
   );
 }
