@@ -3,6 +3,9 @@ import useFetch from "../hooks/useFetch";
 import { Link } from "react-router-dom";
 import { fetchPlanets } from "../services/planets.service";
 import { useQuery } from "@tanstack/react-query";
+import CustomCardComponent, {
+  CustomCardComponentWithSyled,
+} from "../components/CustomCardComponent";
 type Planet = {
   name: string;
   rotation_period: string;
@@ -38,6 +41,9 @@ const PlanetList: React.FC = () => {
         height: "500vh",
       }}
     >
+      <CustomCardComponentWithSyled title="Planets" footer="Footer">
+        <p>children</p>
+      </CustomCardComponentWithSyled>
       <h2>Planets</h2>
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error: {error?.message}</p>}
