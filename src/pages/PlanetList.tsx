@@ -1,6 +1,8 @@
 import { useState } from "react";
 import useFetch from "../hooks/useFetch";
-
+import { Link } from "react-router-dom";
+import { fetchPlanets } from "../services/planets.service";
+import { useQuery } from "@tanstack/react-query";
 type Planet = {
   name: string;
   rotation_period: string;
@@ -23,14 +25,22 @@ type ResponsePlanets = {
 
 const PlanetList: React.FC = () => {
   const [page, setPage] = useState(1);
-  const { data } = useFetch<ResponsePlanets>(
-    "https://swapi.dev/api/planets",
-    page
-  );
+  const { isLoading, data, isError, error } = useQuery<ResponsePlanets>({
+    queryKey: ["planets", page],
+    queryFn: () => fetchPlanets(page),
+    gcTime: 1000 * 60 * 5,
+    staleTime: 5000,
+  });
 
   return (
-    <div>
+    <div
+      style={{
+        height: "500vh",
+      }}
+    >
       <h2>Planets</h2>
+      {isLoading && <p>Loading...</p>}
+      {isError && <p>Error: {error?.message}</p>}
       <ul>
         {data?.results.map((planet) => (
           <li key={planet.url}>{planet.name}</li>
@@ -52,6 +62,8 @@ const PlanetList: React.FC = () => {
       >
         next
       </button>
+      <a href="/demo">Go to demo Page</a>
+      <Link to="/demo">Go to demo Page</Link>
     </div>
   );
 };
