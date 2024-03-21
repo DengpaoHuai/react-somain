@@ -4,6 +4,7 @@ import SecondPage from "../pages/SecondPage";
 import CreateMoviePage from "../pages/CreateMoviePage";
 import ListMovies from "../pages/ListMovies";
 import MainLayoutMovies from "../layouts/MainLayoutMovies";
+import LoginPage from "../pages/LoginPage";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/demo",
     element: <SecondPage />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
 ]);
 
